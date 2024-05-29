@@ -1,0 +1,12 @@
+@if (control) {
+<label [class.required]="required" [for]="id()">{{ label() }}</label>
+<input
+  class="form-control"
+  [type]="type()"
+  [placeholder]="placeholder() || label()"
+  [id]="id()"
+  [name]="id()"
+  [attr.disabled]="isDisabled ? true : null"
+  [formControl]="control"
+/>
+}

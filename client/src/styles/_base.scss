@@ -1,0 +1,47 @@
+.button {
+  padding: 8px 18px;
+
+  background: transparent;
+  border-radius: 25px;
+  border: 2px solid var(--primary);
+  transition: 0.25s;
+  margin: 0 4px;
+
+  &:hover,
+  &:focus {
+    background: var(--primary);
+    border: 2px solid var(--primary);
+    color: gray;
+  }
+}
+
+.button-warn {
+  padding: 8px 18px;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  color: var(--primary);
+  background-color: var(--warning);
+  transition: var(--transition);
+  font-weight: 500;
+
+  &:hover,
+  :focus {
+    color: var(--white);
+  }
+}
+
+.button-primary {
+  padding: 8px 18px;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--secondary);
+  transition: var(--transition);
+  font-weight: 400;
+
+  &:hover,
+  :focus {
+    background-color: var(--primary);
+    color: #fafafa;
+  }
+}

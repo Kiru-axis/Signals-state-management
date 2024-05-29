@@ -1,0 +1,15 @@
+@if (control) {
+<label [class.required]="required" [for]="id()">{{ label() }}</label>
+
+<textarea
+  class="form-control"
+  class="form-control"
+  type="text"
+  [placeholder]="placeholder() || label()"
+  [id]="id()"
+  [name]="id()"
+  [attr.disabled]="isDisabled ? true : null"
+  [formControl]="control"
+></textarea>
+
+}

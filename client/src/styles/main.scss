@@ -1,0 +1,18 @@
+@import "config";
+@import "resets";
+@import "typography";
+@import "base";
+@import "forms";
+@import "utils";
+@import "layout";
+@import "vendor";
+
+html,
+body {
+  font-size: 14px;
+  background-color: #f1f1f1;
+  color: var(--primary);
+  line-height: 1.5;
+  letter-spacing: 0.2px;
+  position: relative;
+}

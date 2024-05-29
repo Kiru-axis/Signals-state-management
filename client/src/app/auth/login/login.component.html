@@ -1,0 +1,37 @@
+<div class="container py-5 my-5">
+  <div class="d-flex align-items-center justify-content-center">
+    <form
+      class="p-3 shadow bg-white form-card"
+      novalidate
+      autocomplete="off"
+      [formGroup]="form"
+      (ngSubmit)="login()"
+    >
+      <legend class="text-center fs-5 mb-3 fw-semibold">Login</legend>
+
+      <app-form-group
+        [control]="form.controls.email"
+        [patternError]="regexErrors.email"
+      >
+        <app-input
+          label="Email"
+          id="logEmail"
+          formControlName="email"
+        ></app-input>
+      </app-form-group>
+
+      <app-form-group
+        [control]="form.controls.password"
+        [patternError]="regexErrors.password"
+      >
+        <app-password
+          label="Password"
+          id="logPassword"
+          formControlName="password"
+        ></app-password>
+      </app-form-group>
+
+      <button class="btn btn-success my-3">Login</button>
+    </form>
+  </div>
+</div>

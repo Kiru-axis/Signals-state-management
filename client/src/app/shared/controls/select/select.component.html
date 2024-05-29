@@ -1,0 +1,8 @@
+@if (control) {
+<label [class.required]="required" [for]="id()">{{ label() }}</label>
+<select class="form-select" [id]="id()" [formControl]="control" [name]="id()">
+  @for (item of items(); track $index) {
+  <option [value]="item.value">{{ item.label }}</option>
+  }
+</select>
+}

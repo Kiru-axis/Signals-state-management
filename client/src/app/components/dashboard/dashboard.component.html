@@ -1,0 +1,262 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" routerLink="/dashboard">Home</a>
+  <span class="breadcrumb-item active" aria-current="page">Dashboard</span>
+</nav>
+
+<section class="py-3 my-4 layout">
+  <h2 class="layout-header">Dashboard</h2>
+
+  <div class="row">
+    <!--##################### COL 1 #########  -->
+    <div class="col-md-3 border p-1">
+      <!-- profile -->
+      <h5 class="text-center fw-semibold p-2 text-bg-secondary rounded">
+        {{ designation }}
+      </h5>
+
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <div class="profile-img">
+          <img
+            src="assets/images/avatar.png"
+            alt="profile-img"
+            class="img-fluid"
+          />
+        </div>
+        <h6>{{ username }}</h6>
+      </div>
+
+      <!-- summary -->
+      <div class="team-summary bg-white mb-3">
+        <h5 class="text-center mb-1 p-2 mt-3 rounded">Team Summary</h5>
+        <ul class="list-group list-group-flush px-2">
+          <li
+            class="list-group-item d-flex align-items-center justify-content-between"
+          >
+            <h6 class="text-capitalize mb-0">No. of team members</h6>
+            <span class="badge d-block bg-secondary">{{
+              noOfTeamMembers
+            }}</span>
+          </li>
+          <li
+            class="list-group-item d-flex align-items-center justify-content-between"
+          >
+            <h6 class="text-capitalize mb-0">Total cost of all projects</h6>
+            <span class="badge d-block bg-secondary">{{
+              totalCostOfAllProjects | currency
+            }}</span>
+          </li>
+          <li
+            class="list-group-item d-flex align-items-center justify-content-between"
+          >
+            <h6 class="text-capitalize mb-0">Pending tasks</h6>
+            <span class="badge d-block bg-secondary">{{ pendingTasks }}</span>
+          </li>
+          <li
+            class="list-group-item d-flex align-items-center justify-content-between"
+          >
+            <h6 class="text-capitalize mb-0">Upcoming Projects</h6>
+            <span class="badge d-block bg-secondary">{{
+              upComingProjects
+            }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- clients -->
+      <div class="team-summary bg-white mb-3">
+        <h5 class="text-center mb-1 p-2 mt-3 rounded">Clients</h5>
+        <ul class="list-group list-group-flush">
+          @for (cl of clients; track $index) {
+          <li class="list-group-item">{{ cl }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!--##################### COL 2 #########  -->
+    <div class="col-md-6 border p-1">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="projectsId"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Projects
+          </button>
+          <div class="dropdown-menu" aria-labelledby="projectsId">
+            @for (project of projects; track $index) {
+
+            <a
+              class="dropdown-item"
+              onclick="return false"
+              href="#"
+              (click)="showProjectDetails($event)"
+              >{{ project }}</a
+            >
+            }
+          </div>
+        </div>
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="yearsId"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Years
+          </button>
+          <div class="dropdown-menu" aria-labelledby="yearsId">
+            @for (year of years; track $index) { @switch (year) { @case (2022) {
+
+            <a
+              href="#"
+              [ngClass]="'text-danger'"
+              onclick="return false"
+              class="dropdown-item"
+              >{{ year }}</a
+            >
+            } @default {
+            <a
+              href="#"
+              [ngClass]="'text-info'"
+              onclick="return false"
+              class="dropdown-item"
+              >{{ year }}</a
+            >
+            } } }
+          </div>
+        </div>
+      </div>
+
+      <!-- briefing -->
+      <div class="team-summary bg-white mb-3">
+        <h5 class="text-center mb-1 p-2 mt-3 rounded">Project Briefing</h5>
+        <ul class="list-group list-group-flush px-2">
+          <li
+            class="list-group-item d-flex align-items-center justify-content-between"
+          >
+            <h6 class="text-capitalize mb-0">Project Cost</h6>
+            <span class="badge d-block bg-secondary">{{
+              projectCost | currency
+            }}</span>
+          </li>
+          <li
+            class="list-group-item d-flex align-items-center justify-content-between"
+          >
+            <h6 class="text-capitalize mb-0">Current Expenditure</h6>
+            <span class="badge d-block bg-secondary">{{
+              currentExpenditure | currency
+            }}</span>
+          </li>
+          <li
+            class="list-group-item d-flex align-items-center justify-content-between"
+          >
+            <h6 class="text-capitalize mb-0">Available Funds</h6>
+            <span class="badge d-block bg-secondary">{{
+              availableFunds | currency
+            }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- team member summary -->
+
+      <div class="team-summary bg-white mb-3">
+        <h5 class="text-center mb-1 p-2 mt-3 rounded">Team Member Summary</h5>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Region</th>
+                <th scope="col">Team Members Count</th>
+                <th scope="col">Temporarily Unavailable Members</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (data of teamMembersSummary; track $index) {
+              <tr>
+                <td>{{ data.Region }}</td>
+                <td>{{ data.TeamMembersCount }}</td>
+                <td>{{ data.TemporarilyUnavailableMembers }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!--##################### COL 3 #########  -->
+
+    <div class="col-md-3 border p-1">
+      <!-- Team Members -->
+      <div class="team-summary bg-white mb-3">
+        <h5 class="text-center mb-1 p-2 mt-3 rounded">Project Briefing</h5>
+
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+          @for (data of teamsMembers; track $index) {
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#flushed' + $index"
+                aria-expanded="true"
+                aria-controls="flushed"
+              >
+                {{ data.Region }}
+              </button>
+            </h2>
+            <div
+              [id]="'flushed' + $index"
+              class="accordion-collapse collapse"
+              aria-labelledby="flush-headingTwo"
+              data-bs-parent="#accordionFlushExample"
+              [ngClass]="{ show: $index == 0 }"
+            >
+              <div class="accordion-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (d of data.Members; track $index) {
+
+                      <tr class="">
+                        <td scope="row">{{ d.ID }}</td>
+                        <td>{{ d.Name }}</td>
+                        <td
+                          [style.color]="
+                            d.Status === 'Available' ? 'green' : 'red'
+                          "
+                        >
+                          {{ d.Status }}
+                        </td>
+                      </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

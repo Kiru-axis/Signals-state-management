@@ -1,0 +1,85 @@
+@import "mixins";
+.form-card {
+  legend {
+    color: #888da8;
+    font-weight: 500;
+  }
+
+  width: 400px;
+  transform: var(--transition);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group_error {
+  label {
+    &.required {
+      &::after {
+        content: "*";
+        color: var(--error);
+      }
+    }
+  }
+}
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.form-control {
+  border: 1px solid #ced5df;
+  // border: 1px solid rgba(0, 0, 0, 0.25);
+
+  border-radius: 2px;
+  box-shadow: none;
+  height: 35px;
+  font-size: 14px;
+  color: #888da8;
+  transition: var(--transition);
+
+  &::placeholder {
+    color: #e0e2e9;
+  }
+
+  &:focus {
+    outline: 0 none;
+    box-shadow: none;
+    border-color: #3daef3;
+  }
+}
+
+textarea.form-control {
+  min-height: 100px;
+}
+
+.form-check-input {
+  &:focus {
+    outline: 0 none;
+    box-shadow: none;
+    border-color: #3daef3;
+  }
+}
+
+.form-select {
+  border: 1px solid #ced5df;
+  &:focus {
+    outline: 0 none;
+    box-shadow: none;
+    border-color: #3daef3;
+  }
+}
+
+.router-link {
+  transition: var(--transition);
+  color: var(--gray);
+  font-weight: 500;
+  font-size: 14px;
+  &:hover,
+  :focus {
+    text-decoration: underline;
+    color: #0c7bbe;
+  }
+}

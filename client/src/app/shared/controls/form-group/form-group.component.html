@@ -1,0 +1,26 @@
+<div class="form-group" [class.form-group_error]="hasError()">
+  <ng-content></ng-content>
+
+  @if (control() && errorKey) {
+  <div class="form-group__errors">
+    @switch (errorKey) { @case ('required') {<span>This field is required</span
+    >} @case ('pwMatch') {<span>Passwords dont match</span>} @case
+    ('requiredTrue') {<span>This field is required</span>} @case ('max') {<span
+      >Maximum {{control().errors?.[errorKey].max}}</span
+    >} @case ('min') {<span>Minimum {{control().errors?.[errorKey].min}}</span
+    >} @case ('minlength') {<span
+      >At least {{control().errors?.[errorKey].requiredLength}} characters</span
+    >} @case ('maxlength') {<span
+      >No more than {{control().errors?.[errorKey].requiredLength}}</span
+    >} @case ('pattern') {
+    <div>
+      @if (patternError()) {
+      <span>{{ patternError() }}</span>
+      } @else {
+      <span>Pattern does not match</span>
+      }
+    </div>
+    } }
+  </div>
+  }
+</div>

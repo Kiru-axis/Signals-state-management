@@ -1,0 +1,285 @@
+<div class="container my-2">
+  <nav class="breadcrumb">
+    <a class="breadcrumb-item" href="#">Home</a>
+    <span class="breadcrumb-item active" aria-current="page">Projects</span>
+  </nav>
+</div>
+
+<section class="container my-4">
+  <div class="top-bar mb-3 d-flex align-items-center justify-content-between">
+    <button
+      class="btn btn-info"
+      data-bs-toggle="modal"
+      data-bs-target="#modalId"
+    >
+      Create Project
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Team Size</th>
+          <th scope="col">Date Of Start</th>
+          <th scope="col">Active</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of projectsService.projects(); track $index) {
+
+        <tr class="">
+          <td scope="row">{{ data.id | slice : 0 : 7 }}</td>
+          <td scope="row">{{ data.name }}</td>
+          <td scope="row">{{ data.teamSize }}</td>
+          <td scope="row">{{ data.dateOfStart | date }}</td>
+          <td scope="row">{{ data.active }}</td>
+          <td scope="row">{{ data.status }}</td>
+          <td scope="row">
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-danger" (click)="onDeleteProject(data)">
+                <fa-icon [icon]="icons.del"></fa-icon>
+              </button>
+              <button class="btn btn-info">
+                <fa-icon [icon]="icons.view"></fa-icon>
+              </button>
+              <button
+                class="btn btn-info"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal"
+                (click)="openEditProjectModal(data)"
+              >
+                <fa-icon [icon]="icons.edit"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Add Project Modal -->
+<div
+  #addModal
+  class="modal fade"
+  id="modalId"
+  tabindex="-1"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  role="dialog"
+  aria-labelledby="modalTitleId"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleId">Create New Project</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form
+        action=""
+        [formGroup]="addProjectForm"
+        (ngSubmit)="onAddProject()"
+        class="form"
+      >
+        <div class="modal-body">
+          <app-form-group [control]="addProjectForm.controls.name">
+            <app-input
+              id="addName"
+              label="Name"
+              formControlName="name"
+            ></app-input>
+          </app-form-group>
+
+          <app-form-group [control]="addProjectForm.controls.dateOfStart">
+            <app-input
+              type="date"
+              id="addDate"
+              label="Date"
+              formControlName="dateOfStart"
+            ></app-input>
+          </app-form-group>
+
+          <app-form-group
+            [control]="addProjectForm.controls.teamSize"
+            [patternError]="regexErrors.numbers"
+          >
+            <app-input
+              id="addTeamSize"
+              label="TeamSize"
+              type="number"
+              formControlName="teamSize"
+            ></app-input>
+          </app-form-group>
+
+          <app-form-group [control]="addProjectForm.controls.status">
+            <app-select
+              label="Status"
+              id="addStatus"
+              formControlName="status"
+              [items]="projectStatus"
+            ></app-select>
+          </app-form-group>
+
+          <app-form-group [control]="addProjectForm.controls.active">
+            <app-checkbox
+              label="Active"
+              id="addActive"
+              formControlName="active"
+            ></app-checkbox>
+          </app-form-group>
+
+          <app-form-group [control]="addProjectForm.controls.clienLocationId">
+            <app-select
+              label="Client Location"
+              id="addClienLocationId"
+              formControlName="clienLocationId"
+              [items]="transformToControl(projectsService.clientLocations)"
+            ></app-select>
+          </app-form-group>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit ProjectModal -->
+<div
+  #modal
+  class="modal fade"
+  id="editModal"
+  tabindex="-1"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  role="dialog"
+  aria-labelledby="editModalHeader"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalHeader">Edit Project</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form
+        action=""
+        [formGroup]="editProjectForm"
+        (ngSubmit)="onUpdateProject()"
+        class="form"
+      >
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name" class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              id="name"
+              name="name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dateOfStart" class="form-label">Date Of Start</label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="dateOfStart"
+              id="dateOfStart"
+              name="dateOfStart"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="teamSize" class="form-label">Team Size</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="teamSize"
+              id="teamSize"
+              name="teamSize"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="teamSize" class="form-label">Status</label>
+            <select
+              class="form-select"
+              name="status"
+              id="status"
+              formControlName="status"
+            >
+              @for (item of projectStatus; track $index) {
+              <option [value]="item.value">{{ item.label }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="teamSize" class="form-label">Client Location</label>
+            <select
+              class="form-select"
+              name="clientLocationId"
+              id="clientLocationId"
+              formControlName="clientLocationId"
+            >
+              @for (item of transformToControl(projectsService.clientLocations);
+              track $index) {
+              <option [value]="item.value">{{ item.label }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="active"
+                name="active"
+                formControlName="active"
+              />
+              <label class="form-check-label" for="active">Active</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
